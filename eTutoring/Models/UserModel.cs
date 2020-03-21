@@ -12,6 +12,9 @@ namespace eTutoring.Models
         public string UserName { get; set; }
 
         [Required]
+        public string FullName { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
