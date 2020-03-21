@@ -28,7 +28,17 @@ namespace eTutoring.Controllers
             var result = await _repo.RegisterUser(userModel);
             var errors = GetErrorResult(result);
 
-            return errors ?? Ok(result);
+            if (errors != null)
+            {
+                return errors;
+            }
+
+            var successfulMessage = new
+            {
+                message = "Registration Completed"
+            };
+
+            return Ok(successfulMessage);
         }
 
         protected override void Dispose(bool disposing)
