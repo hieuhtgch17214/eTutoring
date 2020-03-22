@@ -13,26 +13,27 @@ namespace eTutoring.Repositories
     public class AuthRepository : IDisposable
     {
         private readonly AuthContext _authContext;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AuthRepository()
         {
             _authContext = new AuthContext();
-            var userStore = new UserStore<IdentityUser>(_authContext);
-            _userManager = new UserManager<IdentityUser>(userStore);
+            var userStore = new UserStore<ApplicationUser>(_authContext);
+            _userManager = new UserManager<ApplicationUser>(userStore);
         }
 
         public Task<IdentityResult> RegisterUser(UserModel userModel)
         {
-            var user = new IdentityUser
+            var appUser = new ApplicationUser
             {
-                UserName = userModel.UserName
+                UserName = userModel.UserName,
+                Email = userModel.Email,
+                FullName = userModel.FullName
             };
-
-            return _userManager.CreateAsync(user, userModel.Password);
+            return _userManager.CreateAsync(appUser, userModel.Password);
         }
 
-        public Task<IdentityUser> FindUser(string username, string password)
+        public Task<ApplicationUser> FindUser(string username, string password)
         {
             return _userManager.FindAsync(username, password);
         }
