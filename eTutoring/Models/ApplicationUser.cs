@@ -13,6 +13,10 @@ namespace eTutoring.Models
     {
         public string FullName { get; set; }
 
+        public string Gender { get; set; }
+
+        public DateTime Birthday { get; set; }
+
         public Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             return manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);

@@ -35,7 +35,9 @@ namespace eTutoring.Tests.AuthTests
                 email = "abcdjek@def.com",
                 password = "abcdefghijk",
                 confirmpassword = "abcdefghijk",
-                role = "student"
+                role = "student",
+                gender = "male",
+                birthday = "12/11/2001"
             };
             
             using (var server = TestServer.Create<Startup>())

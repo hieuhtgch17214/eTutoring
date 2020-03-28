@@ -13,7 +13,9 @@ namespace eTutoring.Utils
         {
             UserName = userModel.UserName,
             Email = userModel.Email,
-            FullName = userModel.FullName
+            FullName = userModel.FullName,
+            Gender = userModel.Gender,
+            Birthday = userModel.Birthday
         };
     }
 }

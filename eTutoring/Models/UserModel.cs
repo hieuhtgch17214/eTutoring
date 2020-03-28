@@ -15,11 +15,20 @@ namespace eTutoring.Models
         public string FullName { get; set; }
 
         [Required]
+        [RegularExpression("^(male|female|other)$")]
+        public string Gender { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy}")]
+        public DateTime Birthday { get; set; }
+
+        [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]
-        [RegularExpression("student|tutor|staff")]
+        [RegularExpression("^(student|tutor|staff)$")]
         public string Role { get; set; }
 
         [Required]
