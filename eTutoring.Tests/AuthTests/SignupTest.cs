@@ -18,25 +18,25 @@ namespace eTutoring.Tests.AuthTests
         [TestMethod]
         public async Task TestSuccessfulSignup()
         {
-            var postBodyObject = new
+            var postBody = new
             {
-                username = "abcdefgh",
+                username = "abcdefghijk",
                 fullname = "John John",
-                email = "abcd@def.com",
-                password = "abcdefghi",
-                confirmpassword = "abcdefghi"
+                email = "abcdjek@def.com",
+                password = "abcdefghijk",
+                confirmpassword = "abcdefghijk",
+                role = "student"
             };
-            var postBodyJson = JsonConvert.SerializeObject(postBodyObject);
-            var postBodyStringContent = new StringContent(postBodyJson, Encoding.UTF8, "application/json");
-
+            
             using (var server = TestServer.Create<Startup>())
             {
-                var response = await server.HttpClient.PostAsync("api/auth/register", postBodyStringContent);
-                
+                var response = await server.HttpClient.PostAsJsonAsync("api/auth/register", postBody);
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var entity = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
 
                 Assert.IsTrue(entity.ContainsKey("message"));
+                Assert.AreEqual(entity["message"], "Registration Completed");
+                response.EnsureSuccessStatusCode();
             }
         }
     }

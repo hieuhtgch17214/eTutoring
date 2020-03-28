@@ -21,7 +21,7 @@ namespace eTutoring
             app.UseWebApi(config);
         }
 
-        private static void ConfigureOAuth(IAppBuilder app)
+        protected void ConfigureOAuth(IAppBuilder app)
         {
             var oauthOptions = new OAuthAuthorizationServerOptions()
             {
