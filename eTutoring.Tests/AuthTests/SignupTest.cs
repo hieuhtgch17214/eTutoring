@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Owin.Testing;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
+using System.Data.Entity;
 
 namespace eTutoring.Tests.AuthTests
 {
@@ -15,6 +17,14 @@ namespace eTutoring.Tests.AuthTests
     [TestClass]
     public class SignupTest
     {
+        [AssemblyCleanup]
+        public static void Cleanup()
+        {
+            // Drop database after tests
+            SqlConnection.ClearAllPools();
+            Database.Delete("etutoring");
+        }
+
         [TestMethod]
         public async Task TestSuccessfulSignup()
         {
