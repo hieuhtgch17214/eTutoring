@@ -11,6 +11,7 @@ namespace eTutoring.Controllers
     {
         [Authorize(Roles = "student")]
         [Route("is-student")]
+        [HttpGet]
         public IHttpActionResult AmIAStudent()
         {
             var result = new

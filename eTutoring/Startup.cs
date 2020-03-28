@@ -26,8 +26,8 @@ namespace eTutoring
             var oauthOptions = new OAuthAuthorizationServerOptions()
             {
                 AllowInsecureHttp = true,
-                TokenEndpointPath = new PathString("/login"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
+                TokenEndpointPath = new PathString("/api/auth/login"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 Provider = new SimpleAuthorizationServerProvider()
             };
             var bearerOptions = new OAuthBearerAuthenticationOptions();

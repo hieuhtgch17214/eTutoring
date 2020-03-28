@@ -28,11 +28,12 @@ namespace eTutoring.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+                var roles = await repo.GetUserRolesById(user.Id);
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 var claims = new List<Claim>
                 {
-                    new Claim("sub", context.UserName),
-                    new Claim("role", user.Roles.First().ToString())
+                    new Claim(ClaimTypes.Name, context.UserName),
+                    new Claim(ClaimTypes.Role, roles.First())
                 };
 
                 identity.AddClaims(claims);

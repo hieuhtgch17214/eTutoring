@@ -44,6 +44,11 @@ namespace eTutoring.Repositories
             return _userManager.FindAsync(username, password);
         }
 
+        public Task<IList<string>> GetUserRolesById(string userId)
+        {
+            return _userManager.GetRolesAsync(userId);
+        }
+
         public void Dispose()
         {
             _authContext.Dispose();
