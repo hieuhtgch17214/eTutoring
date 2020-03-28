@@ -21,5 +21,31 @@ namespace eTutoring.Controllers
 
             return Ok(result);
         }
+
+        [Authorize(Roles = "tutor")]
+        [HttpGet]
+        [Route("is-tutor")]
+        public IHttpActionResult AmIATutor()
+        {
+            var result = new
+            {
+                message = "You are a tutor"
+            };
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "staff")]
+        [HttpGet]
+        [Route("is-staff")]
+        public IHttpActionResult AmIAStaff()
+        {
+            var result = new
+            {
+                message = "You are a staff member"
+            };
+
+            return Ok(result);
+        }
     }
 }
