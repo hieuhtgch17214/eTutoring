@@ -33,7 +33,8 @@ namespace eTutoring.Providers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, context.UserName),
-                    new Claim(ClaimTypes.Role, roles.First())
+                    new Claim(ClaimTypes.Role, roles.First()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
                 };
 
                 identity.AddClaims(claims);

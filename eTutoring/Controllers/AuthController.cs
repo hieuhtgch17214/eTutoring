@@ -41,6 +41,24 @@ namespace eTutoring.Controllers
             return Ok(successfulMessage);
         }
 
+        [Authorize]
+        [HttpGet]
+        [Route("personal-info")]
+        public async Task<IHttpActionResult> GetPersonalInfo()
+        {
+            var id = User.Identity.GetUserId();
+            var user = await _repo.FindUserById(id);
+            var result = new
+            {
+                username = user.UserName,
+                fullname = user.FullName,
+                gender = user.Gender,
+                birthday = user.Birthday,
+                email = user.Email
+            };
+            return Ok(result);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

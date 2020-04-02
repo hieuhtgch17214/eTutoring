@@ -1,30 +1,17 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Microsoft.Owin.Testing;
 using System.Net.Http;
-using Newtonsoft.Json;
-using System.Data.SqlClient;
-using System.Data.Entity;
+using Newtonsoft.Json.Linq;
 
 namespace eTutoring.Tests.AuthTests
 {
     /// <summary>
-    /// Summary description for SignupTest
+    /// Signup integration test
     /// </summary>
     [TestClass]
     public class SignupTest
     {
-        [AssemblyCleanup]
-        public static void Cleanup()
-        {
-            // Drop database after tests
-            SqlConnection.ClearAllPools();
-            Database.Delete("etutoring");
-        }
-
         [TestMethod]
         public async Task TestSuccessfulSignup()
         {
@@ -44,11 +31,36 @@ namespace eTutoring.Tests.AuthTests
             {
                 var response = await server.HttpClient.PostAsJsonAsync("api/auth/register", postBody);
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var entity = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
+                var entity = JObject.Parse(responseContent);
 
-                Assert.IsTrue(entity.ContainsKey("message"));
                 Assert.AreEqual(entity["message"], "Registration Completed");
                 response.EnsureSuccessStatusCode();
+            }
+        }
+
+        [TestMethod]
+        public async Task TestMissingFieldSignUp()
+        {
+            var postBody = new
+            {
+                username = "abcdefghijk",
+                fullname = "John John",
+                password = "abcdefghijk",
+                confirmpassword = "abcdefghijk",
+                role = "student",
+                gender = "male",
+                birthday = "12/11/2001"
+            };
+
+            using (var server = TestServer.Create<Startup>())
+            {
+                var response = await server.HttpClient.PostAsJsonAsync("api/auth/register", postBody);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var entity = JObject.Parse(responseContent);
+
+                Assert.AreEqual(entity["message"], "The request is invalid.");
+                var firstErrorMessage = entity["modelState"]["userModel.Email"][0];
+                Assert.AreEqual(firstErrorMessage, "The Email field is required.");
             }
         }
     }
