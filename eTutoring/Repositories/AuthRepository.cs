@@ -64,11 +64,31 @@ namespace eTutoring.Repositories
             return await user.ToListAsync();
         }
 
+        public async Task<IList<ApplicationUser>> FindTutorsByIds(string[] ids)
+        {
+            var role = await _roleManager.FindByNameAsync("tutor");
+            var user = from oneuser in _userManager.Users
+                       where oneuser.Roles.Any(r => r.RoleId == role.Id)
+                            && ids.Contains(oneuser.Id)
+                       select oneuser;
+            return await user.ToListAsync();
+        }
+
         public async Task<IList<ApplicationUser>> AllStudents()
         {
             var role = await _roleManager.FindByNameAsync("student");
             var user = from oneuser in _userManager.Users
                        where oneuser.Roles.Any(r => r.RoleId == role.Id)
+                       select oneuser;
+            return await user.ToListAsync();
+        }
+
+        public async Task<IList<ApplicationUser>> FindStudentsByIds(string[] ids)
+        {
+            var role = await _roleManager.FindByNameAsync("student");
+            var user = from oneuser in _userManager.Users
+                       where oneuser.Roles.Any(r => r.RoleId == role.Id)
+                            && ids.Contains(oneuser.Id)
                        select oneuser;
             return await user.ToListAsync();
         }
