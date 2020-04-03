@@ -123,10 +123,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\AuthTestController.cs" />
+    <Compile Include="Controllers\ListingController.cs" />
+    <Compile Include="Controllers\TutorAllocationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DbContext\AuthContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\DTO\FormModels\UserFormModel.cs" />
+    <Compile Include="Models\DTO\UserResponseModelDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Repositories\AuthRepository.cs" />

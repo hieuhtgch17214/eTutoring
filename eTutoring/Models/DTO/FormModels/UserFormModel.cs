@@ -6,7 +6,7 @@ using System.Web;
 
 namespace eTutoring.Models
 {
-    public class UserModel
+    public class UserFormModel
     {
         [Required]
         public string UserName { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,9 +27,9 @@ namespace eTutoring.Repositories
             _roleManager = new RoleManager<IdentityRole>(roleStore);
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel)
+        public async Task<IdentityResult> RegisterUser(UserFormModel userModel)
         {
-            await AddRolesIfNotExists(userModel.Role);
+            await AddRoleIfNotExists(userModel.Role);
             var appUser = userModel.ToApplicationUser();
 
             // Create user
@@ -54,13 +55,31 @@ namespace eTutoring.Repositories
             return _userManager.GetRolesAsync(userId);
         }
 
+        public async Task<IList<ApplicationUser>> AllTutors()
+        {
+            var role = await _roleManager.FindByNameAsync("tutor");
+            var user = from oneuser in _userManager.Users
+                where oneuser.Roles.Any(r => r.RoleId == role.Id)
+                select oneuser;
+            return await user.ToListAsync();
+        }
+
+        public async Task<IList<ApplicationUser>> AllStudents()
+        {
+            var role = await _roleManager.FindByNameAsync("student");
+            var user = from oneuser in _userManager.Users
+                       where oneuser.Roles.Any(r => r.RoleId == role.Id)
+                       select oneuser;
+            return await user.ToListAsync();
+        }
+
         public void Dispose()
         {
             _authContext.Dispose();
             _userManager.Dispose();
         }
 
-        private async Task AddRolesIfNotExists(string roleName)
+        private async Task AddRoleIfNotExists(string roleName)
         {
             var roleExists = await _roleManager.RoleExistsAsync(roleName);
             if (roleExists) return;

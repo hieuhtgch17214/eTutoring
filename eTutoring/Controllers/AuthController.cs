@@ -1,5 +1,6 @@
 ﻿using eTutoring.Models;
 using eTutoring.Repositories;
+using eTutoring.Utils;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace eTutoring.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
+        public async Task<IHttpActionResult> RegisterUser(UserFormModel userModel)
         {
             if (!ModelState.IsValid)
             {
@@ -48,14 +49,7 @@ namespace eTutoring.Controllers
         {
             var id = User.Identity.GetUserId();
             var user = await _repo.FindUserById(id);
-            var result = new
-            {
-                username = user.UserName,
-                fullname = user.FullName,
-                gender = user.Gender,
-                birthday = user.Birthday,
-                email = user.Email
-            };
+            var result = user.ToUserResponseModel();
             return Ok(result);
         }
 
