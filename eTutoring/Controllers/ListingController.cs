@@ -38,7 +38,7 @@ namespace eTutoring.Controllers
         }
 
         [HttpGet]
-        [Route("student")]
+        [Route("students")]
         public async Task<IHttpActionResult> ListAllStudents()
         {
             var tutors = await _repo.AllStudents();
@@ -47,7 +47,7 @@ namespace eTutoring.Controllers
         }
 
         [HttpGet]
-        [Route("students")]
+        [Route("student")]
         public async Task<IHttpActionResult> ListAllStudentsWithIds(string ids)
         {
             if (ids == null) return BadRequest();
