@@ -18,6 +18,7 @@ namespace eTutoring
             ConfigureOAuth(app);
             var config = new HttpConfiguration();
             WebApiConfig.Register(config);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
         }
 

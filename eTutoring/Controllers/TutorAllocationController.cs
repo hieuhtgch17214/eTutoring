@@ -6,6 +6,7 @@ using System.Web.Http;
 namespace eTutoring.Controllers
 {
     [RoutePrefix("api/allocation")]
+    [Authorize(Roles = "staff")]
     public class TutorAllocationController : ApiController
     {
         private readonly TutorAllocationRepository _repo = new TutorAllocationRepository();
