@@ -25,6 +25,18 @@ namespace eTutoring.Repositories
             await _authContext.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<UserResponseModelDto>> GetUnallocatedStudents()
+        {
+            var allocatedStudentIds = _authContext.TutorAllocations.Select(
+                allocation => allocation.StudentId
+            );
+            var students = await _authRepository.AllStudents();
+            var unallocatedStudents = from student in students
+                                      where !allocatedStudentIds.Contains(student.Id)
+                                      select student.ToUserResponseModel();
+            return unallocatedStudents;
+        }
+
         public Task<int> DeallocateStudents(string[] studentIds)
         {
             var allocationList = _authContext.TutorAllocations.Where(

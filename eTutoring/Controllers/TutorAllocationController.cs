@@ -35,11 +35,19 @@ namespace eTutoring.Controllers
             return Ok(response);
         }
 
-        [Route("view")]
+        [Route("view-allocations")]
         [HttpGet]
-        public IHttpActionResult VeryCool()
+        public IHttpActionResult AllAllocations()
         {
             var result = _repo.RetrieveAllAllocations();
+            return Ok(result);
+        }
+
+        [Route("unallocated-students")]
+        [HttpGet]
+        public async Task<IHttpActionResult> ViewUnallocatedStudents()
+        {
+            var result = await _repo.GetUnallocatedStudents();
             return Ok(result);
         }
     }
