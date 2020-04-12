@@ -53,7 +53,7 @@ namespace eTutoring.Repositories
 
         public IEnumerable<AllocationResponseModel> RetrieveAllAllocations()
         {
-            return _authContext.ToAllocationResponses();
+            return ToAllocationResponses();
         }
 
         private async Task<IEnumerable<TutorAllocationModel>> CreateAllocationModels(string tutorId, string[] studentIds)
@@ -80,6 +80,47 @@ namespace eTutoring.Repositories
         {
             _authRepository.Dispose();
             _authContext.Dispose();
+        }
+
+        public IEnumerable<AllocationResponseModel> ToAllocationResponses()
+        {
+            var allocations = from allocation in _authContext.TutorAllocations
+                              join tutor in _authContext.Users on allocation.TutorId equals tutor.Id
+                              join student in _authContext.Users on allocation.StudentId equals student.Id
+                              select new { tutor, student };
+            var allocationGroup = from allocation in allocations
+                                  group allocation by allocation.tutor into one_group
+                                  select one_group;
+
+            var result = new List<AllocationResponseModel>();
+            foreach (var oneGroup in allocationGroup)
+            {
+                var students = oneGroup.Select(data => data.student.ToUserResponseModel());
+
+                result.Add(new AllocationResponseModel
+                {
+                    Tutor = oneGroup.Key.ToUserResponseModel(),
+                    Students = students
+                });
+            }
+
+            // merge tutors with no allocations
+            var allocatedTutorIds = from allocation in _authContext.TutorAllocations
+                                    select allocation.TutorId;
+            var unallocatedTutors = from tutor in _authRepository.AllTutors()
+                                    where !allocatedTutorIds.Contains(tutor.Id)
+                                    select tutor.ToUserResponseModel();
+            foreach (var tutor in unallocatedTutors)
+            {
+                result.Add(new AllocationResponseModel
+                {
+                    Tutor = tutor,
+                    Students = Enumerable.Empty<UserResponseModelDto>()
+                });
+            }
+
+
+            return result;
         }
     }
 }

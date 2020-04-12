@@ -18,9 +18,9 @@ namespace eTutoring.Controllers
 
         [HttpGet]
         [Route("tutors")]
-        public async Task<IHttpActionResult> ListAllTutors()
+        public IHttpActionResult ListAllTutors()
         {
-            var tutors = await _repo.AllTutors();
+            var tutors = _repo.AllTutors();
             var response = tutors.Select(tutor => tutor.ToUserResponseModel());
             return Ok(response);
         }
