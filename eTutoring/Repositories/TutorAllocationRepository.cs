@@ -15,14 +15,16 @@ namespace eTutoring.Repositories
         private readonly AuthContext _authContext = new AuthContext();
         private readonly AuthRepository _authRepository = new AuthRepository();
 
-        public async Task AllocateTutorToStudents(string tutorId, string[] studentIds)
+        public async Task<bool> AllocateTutorToStudents(string tutorId, string[] studentIds)
         {
             var allocationModels = await CreateAllocationModels(tutorId, studentIds);
+            if (allocationModels.Count() == 0) return false;
             foreach (var model in allocationModels)
             {
                 _authContext.TutorAllocations.Add(model);
             }
             await _authContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<IEnumerable<UserResponseModelDto>> GetUnallocatedStudents()

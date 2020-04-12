@@ -15,12 +15,16 @@ namespace eTutoring.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> AddAllocation(TutorAllocationFormModel form)
         {
-            await _repo.AllocateTutorToStudents(form.TutorId, form.StudentIds);
-            var response = new
+            bool isSuccessful = await _repo.AllocateTutorToStudents(form.TutorId, form.StudentIds);
+            if (isSuccessful)
             {
-                message = "Allocation completed"
-            };
-            return Ok(response);
+                var response = new
+                {
+                    message = "Allocation completed"
+                };
+                return Ok(response);
+            }
+            return BadRequest();
         }
 
         [Route("delete")]
