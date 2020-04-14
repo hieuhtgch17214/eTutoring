@@ -55,37 +55,6 @@ namespace eTutoring.Repositories
 
         public IEnumerable<AllocationResponseModel> RetrieveAllAllocations()
         {
-            return ToAllocationResponses();
-        }
-
-        private async Task<IEnumerable<TutorAllocationModel>> CreateAllocationModels(string tutorId, string[] studentIds)
-        {
-            var tutor = await _authRepository.FindTutorsByIds(new string[] { tutorId });
-            var students = await _authRepository.FindStudentsByIds(studentIds);
-            if (tutor == null || tutor.Count == 0)
-            {
-                return Enumerable.Empty<TutorAllocationModel>();
-            }
-            if (students == null || students.Count == 0)
-            {
-                return Enumerable.Empty<TutorAllocationModel>();
-            }
-
-            return students.Select(student => new TutorAllocationModel
-            {
-                TutorId = tutorId,
-                StudentId = student.Id
-            });
-        }
-
-        public void Dispose()
-        {
-            _authRepository.Dispose();
-            _authContext.Dispose();
-        }
-
-        public IEnumerable<AllocationResponseModel> ToAllocationResponses()
-        {
             var allocations = from allocation in _authContext.TutorAllocations
                               join tutor in _authContext.Users on allocation.TutorId equals tutor.Id
                               join student in _authContext.Users on allocation.StudentId equals student.Id
@@ -123,6 +92,32 @@ namespace eTutoring.Repositories
 
 
             return result;
+        }
+
+        private async Task<IEnumerable<TutorAllocationModel>> CreateAllocationModels(string tutorId, string[] studentIds)
+        {
+            var tutor = await _authRepository.FindTutorsByIds(new string[] { tutorId });
+            var students = await _authRepository.FindStudentsByIds(studentIds);
+            if (tutor == null || tutor.Count == 0)
+            {
+                return Enumerable.Empty<TutorAllocationModel>();
+            }
+            if (students == null || students.Count == 0)
+            {
+                return Enumerable.Empty<TutorAllocationModel>();
+            }
+
+            return students.Select(student => new TutorAllocationModel
+            {
+                TutorId = tutorId,
+                StudentId = student.Id
+            });
+        }
+
+        public void Dispose()
+        {
+            _authRepository.Dispose();
+            _authContext.Dispose();
         }
     }
 }

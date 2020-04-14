@@ -14,34 +14,37 @@ namespace eTutoring.Controllers
     [Authorize(Roles = "staff")]
     public class ListingController : ApiController
     {
-        private readonly AuthRepository _repo = new AuthRepository();
+        private readonly AuthRepository _authRepo = new AuthRepository();
+        private readonly TutorAllocationRepository _allocationRepo = new TutorAllocationRepository();
 
         [HttpGet]
         [Route("tutors")]
         public IHttpActionResult ListAllTutors()
         {
-            var tutors = _repo.AllTutors();
+            var tutors = _authRepo.AllTutors();
             var response = tutors.Select(tutor => tutor.ToUserResponseModel());
             return Ok(response);
         }
 
         [HttpGet]
         [Route("tutor")]
-        public async Task<IHttpActionResult> ListAllTutorsWithIds(string ids)
+        public IHttpActionResult ListAllTutorsWithIds(string ids)
         {
-            if (ids == null) return BadRequest();
+            if (ids == null || ids.Length == 0) return BadRequest();
 
             var idArray = ids.Split(',');
-            var tutors = await _repo.FindTutorsByIds(idArray);
-            var response = tutors.Select(tutor => tutor.ToUserResponseModel());
-            return Ok(response);
+            var allocations = _allocationRepo.RetrieveAllAllocations();
+            var tutors = from allocation in allocations
+                         where idArray.Contains(allocation.Tutor.ID)
+                         select allocation;
+            return Ok(tutors);
         }
 
         [HttpGet]
         [Route("students")]
         public async Task<IHttpActionResult> ListAllStudents()
         {
-            var tutors = await _repo.AllStudents();
+            var tutors = await _authRepo.AllStudents();
             var response = tutors.Select(tutor => tutor.ToUserResponseModel());
             return Ok(response);
         }
@@ -53,7 +56,7 @@ namespace eTutoring.Controllers
             if (ids == null) return BadRequest();
 
             var idArray = ids.Split(',');
-            var tutors = await _repo.FindStudentsByIds(idArray);
+            var tutors = await _authRepo.FindStudentsByIds(idArray);
             var response = tutors.Select(tutor => tutor.ToUserResponseModel());
             return Ok(response);
         }
@@ -62,7 +65,7 @@ namespace eTutoring.Controllers
         {
             if (disposing)
             {
-                _repo.Dispose();
+                _authRepo.Dispose();
             }
             base.Dispose(disposing);
         }
