@@ -28,7 +28,7 @@ namespace eTutoring.Utils
             Email = user.Email,
             FullName = user.FullName,
             Gender = user.Gender,
-            Birthday = user.Birthday
+            Birthday = user.Birthday.ToString("dd/MM/yyyy")
         };
 
         public static StudentResponseModel ToStudentResponseModel(this ApplicationUser user) => new StudentResponseModel
@@ -38,7 +38,7 @@ namespace eTutoring.Utils
             Email = user.Email,
             FullName = user.FullName,
             Gender = user.Gender,
-            Birthday = user.Birthday
+            Birthday = user.Birthday.ToString("dd/MM/yyyy")
         };
     }
 }
