@@ -44,8 +44,12 @@ namespace eTutoring.Controllers
         [Route("students")]
         public async Task<IHttpActionResult> ListAllStudents()
         {
-            var tutors = await _authRepo.AllStudents();
-            var response = tutors.Select(tutor => tutor.ToUserResponseModel());
+            var students = await _authRepo.AllStudents();
+            var response = students.Select(student => student.ToStudentResponseModel()).ToList();
+            foreach (var student in response)
+            {
+                student.Tutor = _allocationRepo.FindTutorOfStudent(student.ID);
+            }
             return Ok(response);
         }
 
@@ -56,8 +60,12 @@ namespace eTutoring.Controllers
             if (ids == null) return BadRequest();
 
             var idArray = ids.Split(',');
-            var tutors = await _authRepo.FindStudentsByIds(idArray);
-            var response = tutors.Select(tutor => tutor.ToUserResponseModel());
+            var students = await _authRepo.FindStudentsByIds(idArray);
+            var response = students.Select(student => student.ToStudentResponseModel()).ToList();
+            foreach (var student in response)
+            {
+                student.Tutor = _allocationRepo.FindTutorOfStudent(student.ID);
+            }
             return Ok(response);
         }
 

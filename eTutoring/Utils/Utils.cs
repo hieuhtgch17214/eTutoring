@@ -30,5 +30,15 @@ namespace eTutoring.Utils
             Gender = user.Gender,
             Birthday = user.Birthday
         };
+
+        public static StudentResponseModel ToStudentResponseModel(this ApplicationUser user) => new StudentResponseModel
+        {
+            ID = user.Id,
+            UserName = user.UserName,
+            Email = user.Email,
+            FullName = user.FullName,
+            Gender = user.Gender,
+            Birthday = user.Birthday
+        };
     }
 }

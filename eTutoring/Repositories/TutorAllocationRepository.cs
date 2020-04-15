@@ -53,6 +53,23 @@ namespace eTutoring.Repositories
             return _authContext.SaveChangesAsync();
         }
 
+        public UserResponseModelDto FindTutorOfStudent(string studentId)
+        {
+            var allocations = from allocation in _authContext.TutorAllocations
+                              join tutor in _authContext.Users on allocation.TutorId equals tutor.Id
+                              join student in _authContext.Users on allocation.StudentId equals student.Id
+                              select new { tutor, student };
+            var tutors = from allocation in allocations
+                        where allocation.student.Id.Equals(studentId)
+                        select allocation.tutor;
+            var firstTutor = tutors.FirstOrDefault();
+            if (firstTutor == null)
+            {
+                return null;
+            }
+            return firstTutor.ToUserResponseModel();
+        }
+
         public IEnumerable<AllocationResponseModel> RetrieveAllAllocations()
         {
             var allocations = from allocation in _authContext.TutorAllocations

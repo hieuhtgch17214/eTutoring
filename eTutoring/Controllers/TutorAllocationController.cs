@@ -1,4 +1,5 @@
-﻿using eTutoring.Models.DTO.FormModels;
+﻿using eTutoring.Models.DTO;
+using eTutoring.Models.DTO.FormModels;
 using eTutoring.Repositories;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -41,7 +42,7 @@ namespace eTutoring.Controllers
 
         [Route("view-allocations")]
         [HttpGet]
-        public IHttpActionResult AllAllocations()
+        public IHttpActionResult Allocations()
         {
             var result = _repo.RetrieveAllAllocations();
             return Ok(result);
@@ -52,6 +53,20 @@ namespace eTutoring.Controllers
         public async Task<IHttpActionResult> ViewUnallocatedStudents()
         {
             var result = await _repo.GetUnallocatedStudents();
+            return Ok(result);
+        }
+
+        [Route("view-all-allocations")]
+        [HttpGet]
+        public async Task<IHttpActionResult> AllAllocations()
+        {
+            var allocations = _repo.RetrieveAllAllocations();
+            var unallocatedStudents = await _repo.GetUnallocatedStudents();
+            var result = new AllAllocationResponseModel
+            {
+                Allocations = allocations,
+                UnallocatedStudents = unallocatedStudents
+            };
             return Ok(result);
         }
     }

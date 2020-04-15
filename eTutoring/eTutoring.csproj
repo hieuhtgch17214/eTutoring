@@ -137,10 +137,12 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DbContext\AuthContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\DTO\AllAllocationResponseModel.cs" />
     <Compile Include="Models\DTO\AllocationResponseModel.cs" />
     <Compile Include="Models\DTO\FormModels\StudentDeallocationFormModel.cs" />
     <Compile Include="Models\DTO\FormModels\TutorAllocationFormModel.cs" />
     <Compile Include="Models\DTO\FormModels\UserFormModel.cs" />
+    <Compile Include="Models\DTO\StudentResponseModel.cs" />
     <Compile Include="Models\DTO\UserResponseModelDto.cs" />
     <Compile Include="Models\TutorAllocationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
