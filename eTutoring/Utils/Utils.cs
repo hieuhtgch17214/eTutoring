@@ -40,5 +40,19 @@ namespace eTutoring.Utils
             Gender = user.Gender,
             Birthday = user.Birthday.ToString("dd/MM/yyyy")
         };
+
+        public static BlogPostResponseModel ToBlogPostResponse(this BlogPostModel model) => new BlogPostResponseModel
+        {
+            ID = model.ID,
+            Title = model.Title,
+            Content = model.Content
+        };
+
+        public static FileUploadResponseModel ToFileUploadResponse(this FileUploadModel model) => new FileUploadResponseModel
+        {
+            FileId = model.FileId,
+            FileName = model.FileName,
+            Comment = model.Comment
+        };
     }
 }

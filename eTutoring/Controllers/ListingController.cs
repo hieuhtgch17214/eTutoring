@@ -74,6 +74,7 @@ namespace eTutoring.Controllers
             if (disposing)
             {
                 _authRepo.Dispose();
+                _allocationRepo.Dispose();
             }
             base.Dispose(disposing);
         }

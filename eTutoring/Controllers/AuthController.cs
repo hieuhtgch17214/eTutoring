@@ -2,6 +2,7 @@
 using eTutoring.Repositories;
 using eTutoring.Utils;
 using Microsoft.AspNet.Identity;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -36,7 +37,9 @@ namespace eTutoring.Controllers
                 message = "Registration Completed"
             };
 
-            return Ok(successfulMessage);
+            var successfulResponse = Request.CreateResponse(System.Net.HttpStatusCode.Created, successfulMessage);
+
+            return ResponseMessage(successfulResponse);
         }
 
         [Authorize]

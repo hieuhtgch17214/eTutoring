@@ -55,13 +55,13 @@ namespace eTutoring.Repositories
             return _userManager.GetRolesAsync(userId);
         }
 
-        public IList<ApplicationUser> AllTutors()
+        public IEnumerable<ApplicationUser> AllTutors()
         {
             var role = _roleManager.FindByName("tutor");
             var user = from oneuser in _userManager.Users
                 where oneuser.Roles.Any(r => r.RoleId == role.Id)
                 select oneuser;
-            return user.ToList();
+            return user.AsEnumerable();
         }
 
         public async Task<IList<ApplicationUser>> FindTutorsByIds(string[] ids)

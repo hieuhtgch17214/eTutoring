@@ -10,11 +10,13 @@ namespace eTutoring.DbContext
 {
     public class AuthContext : IdentityDbContext<ApplicationUser>
     {
-        public AuthContext() : base("AuthContext")
+        public AuthContext() : base("eTutoringContext")
         {
 
         }
 
         public DbSet<TutorAllocationModel> TutorAllocations { get; set; }
+        public DbSet<BlogPostModel> BlogPosts { get; set; }
+        public DbSet<FileUploadModel> FileUploads { get; set; }
     }
 }

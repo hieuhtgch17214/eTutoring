@@ -16,6 +16,11 @@ namespace eTutoring.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> AddAllocation(TutorAllocationFormModel form)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             bool isSuccessful = await _repo.AllocateTutorToStudents(form.TutorId, form.StudentIds);
             if (isSuccessful)
             {
@@ -32,6 +37,11 @@ namespace eTutoring.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> RemoveAllocation(StudentDeallocationFormModel form)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             await _repo.DeallocateStudents(form.StudentIds);
             var response = new
             {
@@ -68,6 +78,15 @@ namespace eTutoring.Controllers
                 UnallocatedStudents = unallocatedStudents
             };
             return Ok(result);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _repo.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
