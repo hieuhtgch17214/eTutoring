@@ -7,9 +7,9 @@ namespace eTutoring.Models.DTO
 {
     public class FileUploadResponseModel
     {
+        public int ID { get; set; }
         public string FileName { get; set; }
-
-        public string FileId { get; set; }
-        public string Comment { get; set; }
+        public string FileUri { get; set; }
+        public IEnumerable<FileCommentResponseModel> Comments { get; set; }
     }
 }

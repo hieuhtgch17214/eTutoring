@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
+using System.Collections.Specialized;
 
 namespace eTutoring.Providers
 {
@@ -13,6 +14,9 @@ namespace eTutoring.Providers
     {
         private readonly CloudBlobContainer _container;
         private readonly string _userId;
+
+        public string FileName { get; set; }
+
         public AzureStorageMultipartFormProvider(CloudBlobContainer container, string userId) : base("azure")
         {
             _container = container;
@@ -36,6 +40,8 @@ namespace eTutoring.Providers
             var currentFileData = new MultipartFileData(headers, blobBlock.Name);
 
             FileData.Add(currentFileData);
+
+            FormData.Set("blobUri", blobBlock.Uri.ToString());
 
             return blobBlock.OpenWrite();
         }

@@ -96,6 +96,7 @@ namespace eTutoring.Repositories
         public void Dispose()
         {
             _authContext.Dispose();
+            _roleManager.Dispose();
             _userManager.Dispose();
         }
 

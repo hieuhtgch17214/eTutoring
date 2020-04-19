@@ -18,5 +18,6 @@ namespace eTutoring.DbContext
         public DbSet<TutorAllocationModel> TutorAllocations { get; set; }
         public DbSet<BlogPostModel> BlogPosts { get; set; }
         public DbSet<FileUploadModel> FileUploads { get; set; }
+        public DbSet<FileCommentModel> FileComments { get; set; }
     }
 }

@@ -87,6 +87,9 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.3.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.9.3.3\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="MultipartDataMediaFormatter, Version=2.0.2.0, Culture=neutral, PublicKeyToken=67148dd0761d95a0, processorArchitecture=MSIL">
+      <HintPath>..\packages\MultipartDataMediaFormatter.V2.2.0.2\lib\net45\MultipartDataMediaFormatter.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -161,6 +164,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\AuthTestController.cs" />
     <Compile Include="Controllers\BlogPostController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\ListingController.cs" />
     <Compile Include="Controllers\TutorAllocationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -170,13 +174,17 @@
     <Compile Include="Models\DTO\AllAllocationResponseModel.cs" />
     <Compile Include="Models\DTO\AllocationResponseModel.cs" />
     <Compile Include="Models\DTO\BlogPostResponseModel.cs" />
+    <Compile Include="Models\DTO\FileCommentResponseModel.cs" />
     <Compile Include="Models\DTO\FileUploadResponseModel.cs" />
     <Compile Include="Models\DTO\FormModels\BlogPostFormModel.cs" />
+    <Compile Include="Models\DTO\FormModels\FileCommentFormModel.cs" />
+    <Compile Include="Models\DTO\FormModels\FileUploadFormModel.cs" />
     <Compile Include="Models\DTO\FormModels\StudentDeallocationFormModel.cs" />
     <Compile Include="Models\DTO\FormModels\TutorAllocationFormModel.cs" />
     <Compile Include="Models\DTO\FormModels\UserFormModel.cs" />
     <Compile Include="Models\DTO\StudentResponseModel.cs" />
     <Compile Include="Models\DTO\UserResponseModelDto.cs" />
+    <Compile Include="Models\FileCommentModel.cs" />
     <Compile Include="Models\FileUploadModel.cs" />
     <Compile Include="Models\TutorAllocationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

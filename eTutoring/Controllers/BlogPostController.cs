@@ -18,14 +18,27 @@ namespace eTutoring.Controllers
 
         [HttpGet]
         [Route("all-posts")]
-        public async Task<IHttpActionResult> GetAllBlogPosts()
+        public async Task<IHttpActionResult> GetAllBlogPosts(string userId)
         {
-            var id = User.Identity.GetUserId();
-            var userTask = _authRepo.FindUserById(id);
-            var blogPosts = _blogRepo.GetAllPostsOfUserId(id);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is needed");
+            }
+            var userTask = _authRepo.FindUserById(userId);
+            var blogPosts = _blogRepo.GetAllPostsOfUserId(userId);
+            var user = await userTask;
+            if (user == null)
+            {
+                var message = new
+                {
+                    message = "User does not exist"
+                };
+                var response = Request.CreateResponse(System.Net.HttpStatusCode.NotFound, message);
+                return ResponseMessage(response);
+            }
             var result = new
             {
-                Author = (await userTask).ToUserResponseModel(),
+                Author = user.ToUserResponseModel(),
                 Posts = blogPosts
             };
             return Ok(result);
@@ -62,6 +75,7 @@ namespace eTutoring.Controllers
             if (disposing)
             {
                 _blogRepo.Dispose();
+                _authRepo.Dispose();
             }
             base.Dispose(disposing);
         }

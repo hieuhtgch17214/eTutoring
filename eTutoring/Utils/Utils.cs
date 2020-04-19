@@ -2,6 +2,7 @@
 using eTutoring.Models;
 using eTutoring.Models.DTO;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -48,10 +49,24 @@ namespace eTutoring.Utils
             Content = model.Content
         };
 
-        public static FileUploadResponseModel ToFileUploadResponse(this FileUploadModel model) => new FileUploadResponseModel
+        public static FileUploadResponseModel ToFileUploadResponse(this FileUploadModel model, CloudBlobContainer container, SharedAccessBlobPolicy key)
         {
-            FileId = model.FileId,
-            FileName = model.FileName,
+            var blobBlock = container.GetBlockBlobReference(model.FileId);
+            var blobToken = blobBlock.GetSharedAccessSignature(key);
+            var comments = model.FileComments.Select(comment => comment.ToFileCommentResponse());
+            return new FileUploadResponseModel
+            {
+                ID = model.ID,
+                FileUri = blobBlock.Uri + blobToken,
+                FileName = model.FileName,
+                Comments = comments
+            };
+        }
+
+        public static FileCommentResponseModel ToFileCommentResponse(this FileCommentModel model) => new FileCommentResponseModel
+        {
+            ID = model.ID,
+            Author = model.Author.ToUserResponseModel(),
             Comment = model.Comment
         };
     }
