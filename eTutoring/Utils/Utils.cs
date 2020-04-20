@@ -32,6 +32,17 @@ namespace eTutoring.Utils
             Birthday = user.Birthday.ToString("dd/MM/yyyy")
         };
 
+        public static UserResponseModelDto ToUserResponseModel(this ApplicationUser user, string role) => new UserResponseModelDto
+        {
+            ID = user.Id,
+            UserName = user.UserName,
+            Email = user.Email,
+            FullName = user.FullName,
+            Gender = user.Gender,
+            Birthday = user.Birthday.ToString("dd/MM/yyyy"),
+            Role = role
+        };
+
         public static StudentResponseModel ToStudentResponseModel(this ApplicationUser user) => new StudentResponseModel
         {
             ID = user.Id,

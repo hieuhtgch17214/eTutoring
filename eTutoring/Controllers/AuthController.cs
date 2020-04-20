@@ -2,10 +2,12 @@
 using eTutoring.Repositories;
 using eTutoring.Utils;
 using Microsoft.AspNet.Identity;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace eTutoring.Controllers
 {
@@ -49,7 +51,8 @@ namespace eTutoring.Controllers
         {
             var id = User.Identity.GetUserId();
             var user = await _repo.FindUserById(id);
-            var result = user.ToUserResponseModel();
+            var roles = await _repo.GetUserRolesById(id);
+            var result = user.ToUserResponseModel(roles.First());
             return Ok(result);
         }
 
