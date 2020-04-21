@@ -164,6 +164,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\AuthTestController.cs" />
     <Compile Include="Controllers\BlogPostController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\ListingController.cs" />
     <Compile Include="Controllers\TutorAllocationController.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="Models\DTO\FormModels\TutorAllocationFormModel.cs" />
     <Compile Include="Models\DTO\FormModels\UserFormModel.cs" />
     <Compile Include="Models\DTO\StudentResponseModel.cs" />
+    <Compile Include="Models\DTO\TutorDashboardStatResponseModel.cs" />
     <Compile Include="Models\DTO\UserResponseModelDto.cs" />
     <Compile Include="Models\FileCommentModel.cs" />
     <Compile Include="Models\FileUploadModel.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Repositories\AuthRepository.cs" />
     <Compile Include="Repositories\BlobRepository.cs" />
     <Compile Include="Repositories\BlogPostRepository.cs" />
+    <Compile Include="Repositories\DashboardRepository.cs" />
     <Compile Include="Repositories\TutorAllocationRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Utils.cs" />

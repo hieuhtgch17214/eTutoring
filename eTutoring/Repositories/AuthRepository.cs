@@ -1,5 +1,6 @@
 ﻿using eTutoring.DbContext;
 using eTutoring.Models;
+using eTutoring.Models.DTO;
 using eTutoring.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -53,6 +54,13 @@ namespace eTutoring.Repositories
         public Task<IList<string>> GetUserRolesById(string userId)
         {
             return _userManager.GetRolesAsync(userId);
+        }
+
+        public async Task<UserResponseModelDto> GetUserResponse(string userId)
+        {
+            var userTask = _userManager.FindByIdAsync(userId);
+            var roles = await _userManager.GetRolesAsync(userId);
+            return (await userTask).ToUserResponseModel(roles.First());
         }
 
         public IEnumerable<ApplicationUser> AllTutors()
