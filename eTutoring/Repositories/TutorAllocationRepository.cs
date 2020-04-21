@@ -111,6 +111,21 @@ namespace eTutoring.Repositories
             return result;
         }
 
+        public async Task<AllocationResponseModel> RetrieveStudentsOfTutor(string tutorId)
+        {
+            var tutor = await _authRepository.FindUserById(tutorId);
+            var allocations = from allocation in _authContext.TutorAllocations
+                              where allocation.TutorId.Equals(tutorId)
+                              select allocation.StudentId;
+            var studentIdArray = allocations.ToArray();
+            var students = await _authRepository.FindStudentsByIds(studentIdArray);
+            return new AllocationResponseModel
+            {
+                Tutor = tutor.ToUserResponseModel("tutor"),
+                Students = students.Select(student => student.ToUserResponseModel("student"))
+            };
+        }
+
         private async Task<IEnumerable<TutorAllocationModel>> CreateAllocationModels(string tutorId, string[] studentIds)
         {
             var tutor = await _authRepository.FindTutorsByIds(new string[] { tutorId });
