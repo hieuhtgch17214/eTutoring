@@ -1,12 +1,17 @@
 ﻿using eTutoring.Providers;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Cors;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 [assembly: OwinStartup(typeof(eTutoring.Startup))]
 namespace eTutoring
@@ -18,8 +23,14 @@ namespace eTutoring
             ConfigureOAuth(app);
             var config = new HttpConfiguration();
             WebApiConfig.Register(config);
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseCors(CorsOptions.AllowAll);
             app.UseWebApi(config);
+
+            // Enable SignalR
+            app.Map("/signalr", map =>
+            {
+                map.UseCors(CorsOptions.AllowAll).RunSignalR();
+            });
         }
 
         protected void ConfigureOAuth(IAppBuilder app)
