@@ -27,7 +27,7 @@ namespace eTutoring
             app.UseWebApi(config);
 
             // Enable SignalR
-            app.Map("/signalr", map =>
+            app.Map("/chat", map =>
             {
                 map.UseCors(CorsOptions.AllowAll).RunSignalR();
             });
